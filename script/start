@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+docker run --rm --detach --name time_tracker_container --volume $(pwd):/app --publish 4000:4000 time_tracker

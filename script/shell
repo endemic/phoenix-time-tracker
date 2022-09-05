@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+docker exec --interactive --tty time_tracker_container sh
