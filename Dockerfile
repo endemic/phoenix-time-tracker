@@ -11,6 +11,11 @@ RUN mix local.rebar --force
 
 WORKDIR /app
 
+COPY mix.exs mix.lock ./
+
+RUN mix deps.get
+RUN mix deps.compile
+
 EXPOSE 4000
 
 CMD ["mix", "phx.server"]
