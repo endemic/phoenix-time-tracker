@@ -2,12 +2,16 @@ defmodule TimeTracker.Trackers.Timer do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias TimeTracker.Accounts.Project
+  alias TimeTracker.Accounts.User
+
   schema "timers" do
     field :started_at, :naive_datetime
     field :total_minutes, :integer
     field :workday, :date
-    field :project_id, :id
-    field :user_id, :id
+
+    belongs_to :project, Project
+    belongs_to :user, User
 
     timestamps()
   end

@@ -2,6 +2,8 @@ defmodule TimeTracker.Accounts.Client do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias TimeTracker.Accounts.Project
+
   schema "clients" do
     field :address, :string
     field :city, :string
@@ -9,6 +11,8 @@ defmodule TimeTracker.Accounts.Client do
     field :name, :string
     field :state, :string
     field :zip, :string
+
+    has_many :projects, Project
 
     timestamps()
   end
