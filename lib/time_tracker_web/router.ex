@@ -23,6 +23,15 @@ defmodule TimeTrackerWeb.Router do
     get "/", PageController, :index
   end
 
+  # authenticated scope
+  scope "/", TimeTrackerWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    resources "/clients", ClientController
+    resources "/projects", ProjectController
+    resources "/timers", TimerController
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", TimeTrackerWeb do
   #   pipe_through :api

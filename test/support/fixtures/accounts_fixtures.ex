@@ -28,4 +28,37 @@ defmodule TimeTracker.AccountsFixtures do
     [_, token | _] = String.split(captured_email.text_body, "[TOKEN]")
     token
   end
+
+  @doc """
+  Generate a client.
+  """
+  def client_fixture(attrs \\ %{}) do
+    {:ok, client} =
+      attrs
+      |> Enum.into(%{
+        address: "some address",
+        city: "some city",
+        email: "some email",
+        name: "some name",
+        state: "some state",
+        zip: "some zip"
+      })
+      |> TimeTracker.Accounts.create_client()
+
+    client
+  end
+
+  @doc """
+  Generate a project.
+  """
+  def project_fixture(attrs \\ %{}) do
+    {:ok, project} =
+      attrs
+      |> Enum.into(%{
+        name: "some name"
+      })
+      |> TimeTracker.Accounts.create_project()
+
+    project
+  end
 end

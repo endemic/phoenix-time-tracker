@@ -1,0 +1,30 @@
+<h1>Listing Timers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Started at</th>
+      <th>Total minutes</th>
+      <th>Workday</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for timer <- @timers do %>
+    <tr>
+      <td><%= timer.started_at %></td>
+      <td><%= timer.total_minutes %></td>
+      <td><%= timer.workday %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.timer_path(@conn, :show, timer) %></span>
+        <span><%= link "Edit", to: Routes.timer_path(@conn, :edit, timer) %></span>
+        <span><%= link "Delete", to: Routes.timer_path(@conn, :delete, timer), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Timer", to: Routes.timer_path(@conn, :new) %></span>

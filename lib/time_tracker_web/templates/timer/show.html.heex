@@ -1,0 +1,23 @@
+<h1>Show Timer</h1>
+
+<ul>
+
+  <li>
+    <strong>Started at:</strong>
+    <%= @timer.started_at %>
+  </li>
+
+  <li>
+    <strong>Total minutes:</strong>
+    <%= @timer.total_minutes %>
+  </li>
+
+  <li>
+    <strong>Workday:</strong>
+    <%= @timer.workday %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.timer_path(@conn, :edit, @timer) %></span> |
+<span><%= link "Back", to: Routes.timer_path(@conn, :index) %></span>

@@ -505,4 +505,122 @@ defmodule TimeTracker.AccountsTest do
       refute inspect(%User{password: "123456"}) =~ "password: \"123456\""
     end
   end
+
+  describe "clients" do
+    alias TimeTracker.Accounts.Client
+
+    import TimeTracker.AccountsFixtures
+
+    @invalid_attrs %{address: nil, city: nil, email: nil, name: nil, state: nil, zip: nil}
+
+    test "list_clients/0 returns all clients" do
+      client = client_fixture()
+      assert Accounts.list_clients() == [client]
+    end
+
+    test "get_client!/1 returns the client with given id" do
+      client = client_fixture()
+      assert Accounts.get_client!(client.id) == client
+    end
+
+    test "create_client/1 with valid data creates a client" do
+      valid_attrs = %{address: "some address", city: "some city", email: "some email", name: "some name", state: "some state", zip: "some zip"}
+
+      assert {:ok, %Client{} = client} = Accounts.create_client(valid_attrs)
+      assert client.address == "some address"
+      assert client.city == "some city"
+      assert client.email == "some email"
+      assert client.name == "some name"
+      assert client.state == "some state"
+      assert client.zip == "some zip"
+    end
+
+    test "create_client/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_client(@invalid_attrs)
+    end
+
+    test "update_client/2 with valid data updates the client" do
+      client = client_fixture()
+      update_attrs = %{address: "some updated address", city: "some updated city", email: "some updated email", name: "some updated name", state: "some updated state", zip: "some updated zip"}
+
+      assert {:ok, %Client{} = client} = Accounts.update_client(client, update_attrs)
+      assert client.address == "some updated address"
+      assert client.city == "some updated city"
+      assert client.email == "some updated email"
+      assert client.name == "some updated name"
+      assert client.state == "some updated state"
+      assert client.zip == "some updated zip"
+    end
+
+    test "update_client/2 with invalid data returns error changeset" do
+      client = client_fixture()
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_client(client, @invalid_attrs)
+      assert client == Accounts.get_client!(client.id)
+    end
+
+    test "delete_client/1 deletes the client" do
+      client = client_fixture()
+      assert {:ok, %Client{}} = Accounts.delete_client(client)
+      assert_raise Ecto.NoResultsError, fn -> Accounts.get_client!(client.id) end
+    end
+
+    test "change_client/1 returns a client changeset" do
+      client = client_fixture()
+      assert %Ecto.Changeset{} = Accounts.change_client(client)
+    end
+  end
+
+  describe "projects" do
+    alias TimeTracker.Accounts.Project
+
+    import TimeTracker.AccountsFixtures
+
+    @invalid_attrs %{name: nil}
+
+    test "list_projects/0 returns all projects" do
+      project = project_fixture()
+      assert Accounts.list_projects() == [project]
+    end
+
+    test "get_project!/1 returns the project with given id" do
+      project = project_fixture()
+      assert Accounts.get_project!(project.id) == project
+    end
+
+    test "create_project/1 with valid data creates a project" do
+      valid_attrs = %{name: "some name"}
+
+      assert {:ok, %Project{} = project} = Accounts.create_project(valid_attrs)
+      assert project.name == "some name"
+    end
+
+    test "create_project/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_project(@invalid_attrs)
+    end
+
+    test "update_project/2 with valid data updates the project" do
+      project = project_fixture()
+      update_attrs = %{name: "some updated name"}
+
+      assert {:ok, %Project{} = project} = Accounts.update_project(project, update_attrs)
+      assert project.name == "some updated name"
+    end
+
+    test "update_project/2 with invalid data returns error changeset" do
+      project = project_fixture()
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_project(project, @invalid_attrs)
+      assert project == Accounts.get_project!(project.id)
+    end
+
+    test "delete_project/1 deletes the project" do
+      project = project_fixture()
+      assert {:ok, %Project{}} = Accounts.delete_project(project)
+      assert_raise Ecto.NoResultsError, fn -> Accounts.get_project!(project.id) end
+    end
+
+    test "change_project/1 returns a project changeset" do
+      project = project_fixture()
+      assert %Ecto.Changeset{} = Accounts.change_project(project)
+    end
+  end
 end
