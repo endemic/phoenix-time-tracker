@@ -15,7 +15,7 @@ defmodule TimeTracker.Accounts.Project do
   @doc false
   def changeset(project, attrs) do
     project
-    |> cast(attrs, [:name])
-    |> validate_required([:name])
+    |> cast(attrs, [:client_id, :name])
+    |> validate_required([:client_id, :name])
   end
 end

@@ -5,6 +5,10 @@
     </div>
   <% end %>
 
+  <%= label f, :client_id %>
+  <%= select f, :client_id, @client_options %>
+  <%= error_tag f, :client_id %>
+
   <%= label f, :name %>
   <%= text_input f, :name %>
   <%= error_tag f, :name %>

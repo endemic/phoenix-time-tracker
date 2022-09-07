@@ -10,8 +10,9 @@ defmodule TimeTrackerWeb.ProjectController do
   end
 
   def new(conn, _params) do
+    client_options = Accounts.client_options()
     changeset = Accounts.change_project(%Project{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, client_options: client_options)
   end
 
   def create(conn, %{"project" => project_params}) do
@@ -22,7 +23,8 @@ defmodule TimeTrackerWeb.ProjectController do
         |> redirect(to: Routes.project_path(conn, :show, project))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        client_options = Accounts.client_options()
+        render(conn, "new.html", changeset: changeset, client_options: client_options)
     end
   end
 

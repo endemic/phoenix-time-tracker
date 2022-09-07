@@ -367,6 +367,16 @@ defmodule TimeTracker.Accounts do
   end
 
   @doc """
+  Returns a list of tuples representing clients.
+  To be used for populating <select> tags
+  """
+  def client_options do
+    list_clients()
+    |> Enum.map(fn(c) -> { c.name, c.id } end)
+    |> List.insert_at(0, { "Select a client", nil })
+  end
+
+  @doc """
   Gets a single client.
 
   Raises `Ecto.NoResultsError` if the Client does not exist.
@@ -459,7 +469,9 @@ defmodule TimeTracker.Accounts do
 
   """
   def list_projects do
-    Repo.all(Project)
+    Project
+    |> Repo.all()
+    |> Repo.preload(:client)
   end
 
   @doc """
@@ -476,7 +488,11 @@ defmodule TimeTracker.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_project!(id), do: Repo.get!(Project, id)
+  def get_project!(id) do
+    Project
+    |> Repo.get!(id)
+    |> Repo.preload(:client)
+  end
 
   @doc """
   Creates a project.
