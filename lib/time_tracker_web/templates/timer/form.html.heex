@@ -5,6 +5,10 @@
     </div>
   <% end %>
 
+  <%= label f, :project_id %>
+  <%= select f, :project_id, Enum.map(@projects, fn(p) -> { p.name, p.id } end) %>
+  <%= error_tag f, :project_id %>
+
   <%= label f, :started_at %>
   <%= datetime_select f, :started_at %>
   <%= error_tag f, :started_at %>

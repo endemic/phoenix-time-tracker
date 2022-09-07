@@ -471,7 +471,7 @@ defmodule TimeTracker.Accounts do
   def list_projects do
     Project
     |> Repo.all()
-    |> Repo.preload(:client)
+    # |> Repo.preload(:client)
   end
 
   @doc """
