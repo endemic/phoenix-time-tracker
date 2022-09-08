@@ -30,6 +30,8 @@ defmodule TimeTrackerWeb.Router do
     resources "/clients", ClientController
     resources "/projects", ProjectController
     resources "/timers", TimerController
+    get "/timers/:id/start", TimerController, :start
+    get "/timers/:id/stop", TimerController, :stop
   end
 
   # Other scopes may use custom stacks.

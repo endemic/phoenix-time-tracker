@@ -9,16 +9,17 @@
   <%= select f, :project_id, Enum.map(@projects, fn(p) -> { p.name, p.id } end) %>
   <%= error_tag f, :project_id %>
 
-  <%= label f, :started_at %>
-  <%= datetime_select f, :started_at %>
-  <%= error_tag f, :started_at %>
+  <%# This shouldn't be accessible to edit directly
+  <%# <%= label f, :started_at %>
+  <%# <%= datetime_select f, :started_at %>
+  <%# <%= error_tag f, :started_at %>
 
   <%= label f, :total_minutes %>
-  <%= number_input f, :total_minutes %>
+  <%= number_input f, :total_minutes, default: 0 %>
   <%= error_tag f, :total_minutes %>
 
   <%= label f, :workday %>
-  <%= date_select f, :workday %>
+  <%= date_select f, :workday, default: {2022, 9, 7} %>
   <%= error_tag f, :workday %>
 
   <div>

@@ -3,6 +3,7 @@
 <table>
   <thead>
     <tr>
+      <th>Project</th>
       <th>Started at</th>
       <th>Total minutes</th>
       <th>Workday</th>
@@ -13,13 +14,18 @@
   <tbody>
 <%= for timer <- @timers do %>
     <tr>
+      <td><%= timer.project.name %></td>
       <td><%= timer.started_at %></td>
       <td><%= timer.total_minutes %></td>
       <td><%= timer.workday %></td>
 
       <td>
-        <span><%= link "Show", to: Routes.timer_path(@conn, :show, timer) %></span>
-        <span><%= link "Edit", to: Routes.timer_path(@conn, :edit, timer) %></span>
+        <span><%= if timer.started_at do %>
+          <%= link "Stop", to: Routes.timer_path(@conn, :stop, timer) %>
+        <% else %>
+          <%= link "Start", to: Routes.timer_path(@conn, :start, timer) %>
+        <% end %></span> |
+        <span><%= link "Edit", to: Routes.timer_path(@conn, :edit, timer) %></span> |
         <span><%= link "Delete", to: Routes.timer_path(@conn, :delete, timer), method: :delete, data: [confirm: "Are you sure?"] %></span>
       </td>
     </tr>

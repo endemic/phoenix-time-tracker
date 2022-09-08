@@ -3,10 +3,12 @@ defmodule TimeTrackerWeb.TimerController do
 
   alias TimeTracker.Trackers
   alias TimeTracker.Trackers.Timer
+  alias TimeTracker.Repo
 
   def index(conn, _params) do
     # TODO: only show timers for the currently logged in user
     timers = Trackers.list_timers()
+      |> Repo.preload(:project)
     render(conn, "index.html", timers: timers)
   end
 
@@ -45,10 +47,42 @@ defmodule TimeTrackerWeb.TimerController do
     render(conn, "show.html", timer: timer)
   end
 
+  def start(conn, %{"id" => id}) do
+    timer = Trackers.get_timer!(id)
+    case Trackers.start_timer(timer) do
+      {:ok, timer} ->
+        conn
+        |> put_flash(:info, "Timer started.")
+        |> redirect(to: Routes.timer_path(conn, :index))
+
+      {:error, %Ecto.Changeset{} = _changeset} ->
+        IO.puts inspect _changeset
+        conn
+        |> put_flash(:info, "Error starting timer")
+        |> redirect(to: Routes.timer_path(conn, :index))
+    end
+  end
+
+  def stop(conn, %{"id" => id}) do
+    timer = Trackers.get_timer!(id)
+    case Trackers.stop_timer(timer) do
+      {:ok, timer} ->
+        conn
+        |> put_flash(:info, "Timer stopped.")
+        |> redirect(to: Routes.timer_path(conn, :index))
+
+      {:error, %Ecto.Changeset{} = _changeset} ->
+        conn
+        |> put_flash(:info, "Error stopping timer")
+        |> redirect(to: Routes.timer_path(conn, :index))
+    end
+  end
+
   def edit(conn, %{"id" => id}) do
     timer = Trackers.get_timer!(id)
     changeset = Trackers.change_timer(timer)
-    render(conn, "edit.html", timer: timer, changeset: changeset)
+    projects = TimeTracker.Accounts.list_projects()
+    render(conn, "edit.html", timer: timer, changeset: changeset, projects: projects)
   end
 
   def update(conn, %{"id" => id, "timer" => timer_params}) do
@@ -61,7 +95,8 @@ defmodule TimeTrackerWeb.TimerController do
         |> redirect(to: Routes.timer_path(conn, :show, timer))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", timer: timer, changeset: changeset)
+        projects = TimeTracker.Accounts.list_projects()
+        render(conn, "edit.html", timer: timer, changeset: changeset, projects: projects)
     end
   end
 

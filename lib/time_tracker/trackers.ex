@@ -74,6 +74,31 @@ defmodule TimeTracker.Trackers do
   end
 
   @doc """
+  Populates the "started_at" column of a timer,
+  indicating that it is running
+  """
+  def start_timer(timer) do
+    attrs = %{"started_at" => NaiveDateTime.local_now()}
+
+    timer
+    |> Timer.internal_changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Gets the diff between "now" and "started_at",
+  and adds that to the current timer total
+  """
+  def stop_timer(timer) do
+    elapsed_minutes = round(NaiveDateTime.diff(NaiveDateTime.local_now(), timer.started_at) / 60)
+    attrs = %{"started_at" => nil, "total_minutes" => timer.total_minutes + elapsed_minutes}
+
+    timer
+    |> Timer.internal_changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
   Deletes a timer.
 
   ## Examples
