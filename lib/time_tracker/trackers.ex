@@ -22,6 +22,14 @@ defmodule TimeTracker.Trackers do
   end
 
   @doc """
+  Returns all timers for a particular user
+  """
+  def list_timers_for_user(id) do
+    Repo.all(Timer, user_id: 1)
+    |> Repo.preload(:project)
+  end
+
+  @doc """
   Gets a single timer.
 
   Raises `Ecto.NoResultsError` if the Timer does not exist.

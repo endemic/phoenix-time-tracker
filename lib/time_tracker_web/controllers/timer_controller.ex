@@ -6,9 +6,9 @@ defmodule TimeTrackerWeb.TimerController do
   alias TimeTracker.Repo
 
   def index(conn, _params) do
-    # TODO: only show timers for the currently logged in user
-    timers = Trackers.list_timers()
-      |> Repo.preload(:project)
+    logged_in_user_id = conn.assigns.current_user.id
+
+    timers = Trackers.list_timers_for_user(logged_in_user_id)
     render(conn, "index.html", timers: timers)
   end
 
