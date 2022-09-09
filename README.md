@@ -1,19 +1,19 @@
 # TimeTracker
 
-To start your Phoenix server:
+<p>TimeTracker runs in a Docker container.</p>
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+<ol>
+  <li>Build the image (`./script/build`)</li>
+  <li>Start the container (`./script/start`)</li>
+  <li>Visit [`localhost:4000`](http://localhost:4000) from your browser</li>
+</ol>
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+### Other helpful shortcuts
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+1. `./script/logs` &rarr; tail logs for the container
+1. `./script/console` &rarr; run a Phoenix console
+1. `./script/shell` &rarr; access an interactive shell in the container
 
-## Learn more
+### Known issues
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+1. The Elixir dependencies are stored in `/app`, but then overwritten by a local shared volume when the container is started.
