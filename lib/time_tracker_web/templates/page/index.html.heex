@@ -1,11 +1,14 @@
-<section class="phx-hero">
-  Track ur time here!
+<section>
+  <img src="/images/construction_hr.gif" alt="construction!">
 </section>
 
 <section class="row">
   <article class="column">
     <h2>Resources</h2>
     <ul>
+      <li>
+        <%= link "List time entries", to: Routes.timer_path(@conn, :index) %>
+      </li>
       <li>
         <%= link "Add a time entry", to: Routes.timer_path(@conn, :new) %>
       </li>

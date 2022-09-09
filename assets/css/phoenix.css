@@ -99,3 +99,33 @@ header nav a {
     margin: 2rem 1rem;
   }
 }
+
+/* Some amusing nonsense */
+
+@font-face {
+    font-family: 'ComicRelief';
+    src: url('/fonts/comicrelief-webfont.woff2') format('woff2'),
+         url('/fonts/comicrelief-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+body {
+  background: url('/images/spaceblu.gif');
+  color: white;
+  font-family: ComicRelief;
+}
+
+header {
+  background: none;
+}
+
+h1 > img {
+  vertical-align: text-bottom;
+}
+
+a {
+  color: yellow;
+  font-weight: bold;
+}
