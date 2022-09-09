@@ -5,7 +5,7 @@ defmodule TimeTrackerWeb.ProjectController do
   alias TimeTracker.Accounts.Project
 
   def index(conn, _params) do
-    projects = Accounts.list_projects()
+    projects = Accounts.list_projects() |> TimeTracker.Repo.preload(:client)
     render(conn, "index.html", projects: projects)
   end
 

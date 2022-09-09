@@ -5,16 +5,16 @@
     </div>
   <% end %>
 
-  <%= label f, :started_at %>
-  <%= datetime_select f, :started_at %>
-  <%= error_tag f, :started_at %>
+  <%= label f, :project_id %>
+  <%= select f, :project_id, Enum.map(@projects, fn(p) -> { p.name, p.id } end) %>
+  <%= error_tag f, :project_id %>
 
   <%= label f, :total_minutes %>
-  <%= number_input f, :total_minutes %>
+  <%= number_input f, :total_minutes, default: 0 %>
   <%= error_tag f, :total_minutes %>
 
   <%= label f, :workday %>
-  <%= date_select f, :workday %>
+  <%= date_select f, :workday, default: NaiveDateTime.local_now() |> NaiveDateTime.to_date() |> Date.to_erl() %>
   <%= error_tag f, :workday %>
 
   <div>

@@ -52,9 +52,11 @@ defmodule TimeTracker.AccountsFixtures do
   Generate a project.
   """
   def project_fixture(attrs \\ %{}) do
+    client = client_fixture()
     {:ok, project} =
       attrs
       |> Enum.into(%{
+        client_id: client.id,
         name: "some name"
       })
       |> TimeTracker.Accounts.create_project()

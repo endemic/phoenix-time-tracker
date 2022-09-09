@@ -19,7 +19,13 @@ defmodule TimeTracker.Trackers.Timer do
   @doc false
   def changeset(timer, attrs) do
     timer
-    |> cast(attrs, [:started_at, :total_minutes, :workday])
-    |> validate_required([:started_at, :total_minutes, :workday])
+    |> cast(attrs, [:started_at, :total_minutes, :workday, :user_id, :project_id])
+    |> validate_required([:user_id, :project_id])
+  end
+
+  # don't validate required fields
+  def internal_changeset(timer, attrs) do
+    timer
+    |> cast(attrs, [:started_at, :total_minutes, :workday, :user_id, :project_id])
   end
 end

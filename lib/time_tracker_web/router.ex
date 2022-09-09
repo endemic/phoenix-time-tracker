@@ -29,6 +29,10 @@ defmodule TimeTrackerWeb.Router do
 
     resources "/clients", ClientController
     resources "/projects", ProjectController
+
+    get "/timers/date/:date", TimerController, :by_date
+    get "/timers/:id/start", TimerController, :start
+    get "/timers/:id/stop", TimerController, :stop
     resources "/timers", TimerController
   end
 
