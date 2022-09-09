@@ -49,7 +49,7 @@ defmodule TimeTrackerWeb.TimerController do
       {:ok, timer} ->
         conn
         |> put_flash(:info, "Timer created successfully.")
-        |> redirect(to: Routes.timer_path(conn, :show, timer))
+        |> redirect(to: Routes.timer_path(conn, :index, timer))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -111,7 +111,7 @@ defmodule TimeTrackerWeb.TimerController do
       {:ok, timer} ->
         conn
         |> put_flash(:info, "Timer updated successfully.")
-        |> redirect(to: Routes.timer_path(conn, :show, timer))
+        |> redirect(to: Routes.timer_path(conn, :index, timer))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         projects = TimeTracker.Accounts.list_projects()

@@ -18,7 +18,12 @@
 <%= for timer <- @timers do %>
     <tr>
       <td><%= timer.project.name %></td>
-      <td><%= timer.total_minutes %></td>
+      <td>
+        <%= timer.total_minutes %>
+        <%= if timer.started_at do %>
+        <img src="/images/timer.gif" alt="timer running" width="25" height="25" style="vertical-align: bottom;">
+        <% end %>
+      </td>
       <td><%= timer.workday %></td>
 
       <td>
