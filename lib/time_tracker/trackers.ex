@@ -24,8 +24,10 @@ defmodule TimeTracker.Trackers do
   @doc """
   Returns all timers for a particular user
   """
-  def list_timers_for_user(id) do
-    Repo.all(Timer, user_id: 1)
+  def list_timers_for_user(id, workday) do
+    query = from t in Timer,
+        where: t.user_id == ^id and t.workday == ^workday
+    Repo.all(query)
     |> Repo.preload(:project)
   end
 

@@ -1,10 +1,13 @@
-<h1>Listing Timers</h1>
+<h1>
+  <%= link("←", to: "/timers/date/#{@dates[:yesterday]}") %>
+  Time for <%= @dates[:today] %>
+  <%= link("→", to: "/timers/date/#{@dates[:tomorrow]}") %>
+</h1>
 
 <table>
   <thead>
     <tr>
       <th>Project</th>
-      <th>Started at</th>
       <th>Total minutes</th>
       <th>Workday</th>
 
@@ -15,7 +18,6 @@
 <%= for timer <- @timers do %>
     <tr>
       <td><%= timer.project.name %></td>
-      <td><%= timer.started_at %></td>
       <td><%= timer.total_minutes %></td>
       <td><%= timer.workday %></td>
 

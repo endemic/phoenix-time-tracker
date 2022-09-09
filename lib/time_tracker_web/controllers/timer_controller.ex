@@ -8,20 +8,34 @@ defmodule TimeTrackerWeb.TimerController do
   def index(conn, _params) do
     logged_in_user_id = conn.assigns.current_user.id
 
-    timers = Trackers.list_timers_for_user(logged_in_user_id)
-    render(conn, "index.html", timers: timers)
+    today = NaiveDateTime.local_now() |> NaiveDateTime.to_date()
+    yesterday = today |> Date.add(-1)
+    tomorrow = today |> Date.add(1)
+
+    dates = %{today: today, tomorrow: tomorrow, yesterday: yesterday}
+
+    timers = Trackers.list_timers_for_user(logged_in_user_id, today)
+    render(conn, "index.html", timers: timers, dates: dates)
+  end
+
+  def by_date(conn, %{"date" => date}) do
+    logged_in_user_id = conn.assigns.current_user.id
+
+    {:ok, today} = Date.from_iso8601(date)
+    yesterday = today |> Date.add(-1)
+    tomorrow = today |> Date.add(1)
+
+    dates = %{today: today, tomorrow: tomorrow, yesterday: yesterday}
+
+    timers = Trackers.list_timers_for_user(logged_in_user_id, today)
+    render(conn, "index.html", timers: timers, dates: dates)
   end
 
   def new(conn, _params) do
     # set by `TimeTrackerWeb.UserAuth.fetch_current_user` controller method
     IO.puts inspect conn.assigns.current_user
 
-    # TODO: how to get the current user into the timer object?
-    # TODO: get a list of projects to pass as options to a select input
     projects = TimeTracker.Accounts.list_projects()
-
-    # %Timer{} is an example of an empty struct
-    # the syntax is similar to a Map: %{key => "value"}
 
     changeset = Trackers.change_timer(%Timer{})
     render(conn, "new.html", changeset: changeset, projects: projects)
@@ -87,6 +101,11 @@ defmodule TimeTrackerWeb.TimerController do
 
   def update(conn, %{"id" => id, "timer" => timer_params}) do
     timer = Trackers.get_timer!(id)
+
+    # attempt to fetch the user_id from the connection and slap it into timer params
+    timer_params = Map.put(timer_params, "user_id", conn.assigns.current_user.id)
+
+    IO.puts inspect timer_params
 
     case Trackers.update_timer(timer, timer_params) do
       {:ok, timer} ->
